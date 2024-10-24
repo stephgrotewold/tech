@@ -9,15 +9,34 @@ const RefugiosList = ({ refugios }) => {
 
   return (
     <Container maxWidth="md">
-      <Typography variant="h4" align="center" gutterBottom>
+      <Typography 
+        variant="h4" 
+        align="center" 
+        gutterBottom 
+        style={{ fontWeight: 'bold', fontSize: '2rem', color: '#333', marginTop: '20px' }}
+      >
         Available Refugios
       </Typography>
       <List>
         {refugios.map(refugio => (
-          <ListItem key={refugio.id}>
+          <ListItem key={refugio.id} style={{ marginBottom: '10px' }}>
             <ListItemText
-              primary={refugio.nombre}
-              secondary={`Capacity: ${refugio.capacidad} people, Available: ${refugio.disponible ? 'Yes' : 'No'}`}
+              primary={
+                <Typography 
+                  variant="h6" 
+                  style={{ fontWeight: 'bold', fontSize: '1.2rem', color: '#444' }}
+                >
+                  {refugio.nombre}
+                </Typography>
+              }
+              secondary={
+                <Typography 
+                  variant="body1" 
+                  style={{ fontSize: '1rem', color: '#666' }}
+                >
+                  Capacity: {refugio.capacidad} people, Available: {refugio.disponible ? 'Yes' : 'No'}
+                </Typography>
+              }
             />
           </ListItem>
         ))}

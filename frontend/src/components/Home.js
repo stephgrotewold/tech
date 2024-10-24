@@ -189,17 +189,17 @@ const Home = () => {
               borderRadius: '10px',
               padding: '20px',
               width: '45%',
-              height: '458px',  // Fixed height
-              overflowY: 'scroll',  // Enable vertical scrolling
+              maxHeight: '500px', // Set a max height
+              overflowY: 'auto',  // Enable scrolling
             }}>
               <Typography variant="h5" gutterBottom>
                 Locations
               </Typography>
 
-              {/* Display locations in table format */}
+              {/* Display locations in a pretty format */}
               {showLocations && (
-              <RefugiosList refugios={locations} />
-                )}
+                <RefugiosList refugios={locations} />
+              )}
             </Container>
           </div>
         </div>
