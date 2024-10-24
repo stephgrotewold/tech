@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Float
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
+from random import choice, randint
 
 Base = declarative_base()
 
@@ -14,6 +15,9 @@ class Refugio(Base):
     nombre = Column(String(100), nullable=False)
     capacidad = Column(Integer, nullable=False)
     disponible = Column(String(10), nullable=False)
+    food = Column(String)  # New column for food availability
+    medicine = Column(String)  # New column for medicine availability
+    address = Column(String)
 
     # Relación con la tabla worldcities, especificando explícitamente las claves foráneas
     city = relationship(

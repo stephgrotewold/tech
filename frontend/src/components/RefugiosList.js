@@ -26,7 +26,7 @@ const RefugiosList = ({ refugios }) => {
                   variant="h6" 
                   style={{ fontWeight: 'bold', fontSize: '1.2rem', color: '#444' }}
                 >
-                  {refugio.nombre}
+                  {refugio.nombre} - {refugio.address}  {/* Correctly displaying the address */}
                 </Typography>
               }
               secondary={
@@ -35,6 +35,10 @@ const RefugiosList = ({ refugios }) => {
                   style={{ fontSize: '1rem', color: '#666' }}
                 >
                   Capacity: {refugio.capacidad} people, Available: {refugio.disponible ? 'Yes' : 'No'}
+                  <br />
+                  Food: {refugio.food}  {/* Correctly displaying the food status */}
+                  <br />
+                  Medicine: {refugio.medicine}  {/* Correctly displaying the medicine status */}
                 </Typography>
               }
             />

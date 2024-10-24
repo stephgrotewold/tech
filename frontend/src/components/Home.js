@@ -140,19 +140,23 @@ const Home = () => {
                   onChange={handleChange}
                 >
                   <MenuItem value="Ukraine">Ukraine</MenuItem>
-                  <MenuItem value="Gaza">Gaza</MenuItem>
                   <MenuItem value="Venezuela">Venezuela</MenuItem>
                 </Select>
               </FormControl>
-              <TextField
-                label="City"
+              <FormControl fullWidth style={{ marginBottom: '20px' }}>
+              <InputLabel>Select City</InputLabel>
+              <Select
                 name="city"
-                fullWidth
-                variant="outlined"
                 value={formData.city}
                 onChange={handleChange}
-                style={{ marginBottom: '10px' }}
-              />
+              >
+                <MenuItem value="Kyiv">Kyiv</MenuItem>
+                <MenuItem value="Kharkiv">Kharkiv</MenuItem>
+                <MenuItem value="Odesa">Odesa</MenuItem>
+                <MenuItem value="Caracas">Caracas</MenuItem>
+                <MenuItem value="Maracaibo">Maracaibo</MenuItem>
+              </Select>
+            </FormControl>
               <FormControl fullWidth style={{ marginBottom: '10px' }}>
                 <InputLabel>Select Service</InputLabel>
                 <Select
