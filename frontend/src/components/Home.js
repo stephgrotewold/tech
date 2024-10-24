@@ -180,6 +180,8 @@ const Home = () => {
               borderRadius: '10px',
               padding: '20px',
               width: '45%',
+              height: '458px',  // Fixed height
+              overflowY: 'scroll',  // Enable vertical scrolling
             }}>
               <Typography variant="h5" gutterBottom>
                 Locations
@@ -194,6 +196,12 @@ const Home = () => {
               <Typography>54 Test Av, Wells - 5 open spots</Typography>
               <Typography>9 Cornelia St, NY - Medical Supplies</Typography>
               <Typography>45 Oak St - Food</Typography>
+              <Typography>90 Hey Av, Wells - 5 open spots</Typography>
+              <Typography>12 Cornelia St, NY - Medical Supplies</Typography>
+              <Typography>45 Oak St - Food</Typography>
+              <Typography>90 Hey Av, Wells - 5 open spots</Typography>
+              <Typography>12 Cornelia St, NY - Medical Supplies</Typography>
+              <Typography>12 Cornelia St, NY - Medical Supplies</Typography>
               <Typography>90 Hey Av, Wells - 5 open spots</Typography>
               <Typography>12 Cornelia St, NY - Medical Supplies</Typography>
               <Typography>45 Oak St - Food</Typography>
