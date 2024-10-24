@@ -39,7 +39,7 @@ const Home = () => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await axios.get('https://newsdata.io/api/1/news?apikey=pub_571303b613de9737a5a28fab08f4a2382c8ca&q=Gaza');
+        const response = await axios.get('https://newsdata.io/api/1/news?apikey=pub_571303b613de9737a5a28fab08f4a2382c8ca&q=Ukraine');
         setNews(response.data.results); // Set the news articles
       } catch (error) {
         console.error("Error fetching news:", error);
@@ -149,9 +149,9 @@ const Home = () => {
                   value={formData.country}
                   onChange={handleChange}
                 >
-                  <MenuItem value="Antigua and Barbuda">Antigua and Barbuda</MenuItem>
-                  <MenuItem value="USA">USA</MenuItem>
-                  <MenuItem value="Canada">Canada</MenuItem>
+                  <MenuItem value="Ukraine">Ukraine</MenuItem>
+                  <MenuItem value="Gaza">Gaza</MenuItem>
+                  <MenuItem value="Venezuela">Venezuela</MenuItem>
                 </Select>
               </FormControl>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -186,28 +186,27 @@ const Home = () => {
               <Typography variant="h5" gutterBottom>
                 Locations
               </Typography>
-              <Typography>123 Oak St - Food</Typography>
-              <Typography>54 Test Av, Wells - 5 open spots</Typography>
-              <Typography>9 Cornelia St, NY - Medical Supplies</Typography>
-              <Typography>45 Oak St - Food</Typography>
-              <Typography>90 Hey Av, Wells - 5 open spots</Typography>
-              <Typography>12 Cornelia St, NY - Medical Supplies</Typography>
-              <Typography>123 Oak St - Food</Typography>
-              <Typography>54 Test Av, Wells - 5 open spots</Typography>
-              <Typography>9 Cornelia St, NY - Medical Supplies</Typography>
-              <Typography>45 Oak St - Food</Typography>
-              <Typography>90 Hey Av, Wells - 5 open spots</Typography>
-              <Typography>12 Cornelia St, NY - Medical Supplies</Typography>
-              <Typography>45 Oak St - Food</Typography>
-              <Typography>90 Hey Av, Wells - 5 open spots</Typography>
-              <Typography>12 Cornelia St, NY - Medical Supplies</Typography>
-              <Typography>12 Cornelia St, NY - Medical Supplies</Typography>
-              <Typography>90 Hey Av, Wells - 5 open spots</Typography>
-              <Typography>12 Cornelia St, NY - Medical Supplies</Typography>
-              <Typography>45 Oak St - Food</Typography>
-              <Typography>90 Hey Av, Wells - 5 open spots</Typography>
-              <Typography>12 Cornelia St, NY - Medical Supplies</Typography>
-              <Typography>12 Cornelia St, NY - Medical Supplies</Typography>
+              <Typography>1 Freedom St, Kyiv - 50 open spots</Typography>
+              <Typography>123 Liberty Av, Lviv - Food</Typography>
+              <Typography>54 Hope St, Odessa - 20 open spots</Typography>
+              <Typography>9 Independence Sq, Donetsk - Medical Supplies</Typography>
+              <Typography>45 Peace Rd, Mariupol - Food</Typography>
+              <Typography>90 Unity Av, Dnipro - 10 open spots</Typography>
+              <Typography>12 Revolution St, Zaporizhzhia - Medical Supplies</Typography>
+              <Typography>89 Shelter St, Kharkiv - 15 open spots</Typography>
+              <Typography>14 Solidarity Rd, Gaza - Medical Supplies</Typography>
+              <Typography>32 Nueva Av, Caracas - Food</Typography>
+              <Typography>56 Venezuela St, Maracaibo - 30 open spots</Typography>
+              <Typography>18 Bolivar Rd, Valencia - Medical Supplies</Typography>
+              <Typography>72 Sunrise Av, Barquisimeto - Food</Typography>
+              <Typography>88 Harmony St, San Cristobal - 25 open spots</Typography>
+              <Typography>27 Heroe Sq, Puerto la Cruz - Medical Supplies</Typography>
+              <Typography>19 Peace St, Kyiv - 5 open spots</Typography>
+              <Typography>65 Shelter Rd, Mariupol - Food</Typography>
+              <Typography>104 Sanctuary St, Odessa - Medical Supplies</Typography>
+              <Typography>38 Refuge St, Caracas - 10 open spots</Typography>
+              <Typography>21 Survival Rd, Kharkiv - Medical Supplies</Typography>
+
             </Container>
           </div>
         </div>
