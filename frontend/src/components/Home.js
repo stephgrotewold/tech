@@ -53,18 +53,20 @@ const Home = () => {
     setShowLocations(false);  // Hide the locations table
   };
 
+  
   // Fetch news on component mount
-  useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        const response = await axios.get('https://newsdata.io/api/1/news?apikey=pub_571303b613de9737a5a28fab08f4a2382c8ca&q=Ukraine');
-        setNews(response.data.results); // Set the news articles
-      } catch (error) {
-        console.error("Error fetching news:", error);
-      }
-    };
-    fetchNews();
-  }, []);
+  //  useEffect(() => {
+  //    const fetchNews = async () => {
+  //      try {
+  //        // Call your backend API instead of directly calling the external API
+  //        const response = await axios.get('/api/news?country=Ukraine');
+  //        setNews(response.data.results); // Set the news articles
+  //      } catch (error) {
+  //        console.error("Error fetching news:", error);
+  //      }
+  //    };
+  //    fetchNews();
+  //  }, []);
 
   return (
     <div style={{

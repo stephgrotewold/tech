@@ -2,16 +2,19 @@ from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
-
+import requests
 from database.database import get_db
 from database.models import Refugio, WorldCity
 
 app = FastAPI()
 
-# Add CORS middleware to allow requests from any origin (or specific domains)
+# Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Change this to specific origins if needed
+    allow_origins=[
+        "http://localhost:3001",
+        "http://rahdhgpxbu4wz76le34krh3zh4bydnzr5fl5bpdhwk5l6ssv2wnuwmqd.onion/",
+    ],  # Allow specific origins
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -50,3 +53,13 @@ def get_refugios(country: str, city: str = None, db: Session = Depends(get_db)):
         )
 
     return jsonable_encoder(refugios_data)
+
+
+"""
+@app.get("/api/news")
+def get_news(country: str):
+    url = f"https://newsdata.io/api/1/news?apikey=pub_571303b613de9737a5a28fab08f4a2382c8ca&q={country}"
+    response = requests.get(url)
+
+    return response.json()  # Return the external API response
+"""
