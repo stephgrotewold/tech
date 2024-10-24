@@ -132,6 +132,18 @@ const Home = () => {
                 onChange={handleChange}
                 style={{ marginBottom: '10px' }}
               />
+              <FormControl fullWidth style={{ marginBottom: '20px' }}>
+                <InputLabel>Select Country</InputLabel>
+                <Select
+                  name="country"
+                  value={formData.country}
+                  onChange={handleChange}
+                >
+                  <MenuItem value="Ukraine">Ukraine</MenuItem>
+                  <MenuItem value="Gaza">Gaza</MenuItem>
+                  <MenuItem value="Venezuela">Venezuela</MenuItem>
+                </Select>
+              </FormControl>
               <TextField
                 label="City"
                 name="city"
@@ -149,18 +161,6 @@ const Home = () => {
                   onChange={handleChange}
                 >
                   <MenuItem value="Shelter">Shelter</MenuItem>
-                </Select>
-              </FormControl>
-              <FormControl fullWidth style={{ marginBottom: '20px' }}>
-                <InputLabel>Select Country</InputLabel>
-                <Select
-                  name="country"
-                  value={formData.country}
-                  onChange={handleChange}
-                >
-                  <MenuItem value="Ukraine">Ukraine</MenuItem>
-                  <MenuItem value="Gaza">Gaza</MenuItem>
-                  <MenuItem value="Venezuela">Venezuela</MenuItem>
                 </Select>
               </FormControl>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
