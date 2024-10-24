@@ -119,7 +119,7 @@ const Home = () => {
               width: '45%',
             }}>
               <Typography variant="h5" gutterBottom>
-                Fill out this form
+                Look for what you need
               </Typography>
               <FormControl fullWidth style={{ marginBottom: '20px' }}>
                 <InputLabel>Select Country</InputLabel>
