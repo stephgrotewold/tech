@@ -1,44 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
 import { List, ListItem, ListItemText, Container, Typography } from '@mui/material';
 
-const RefugiosList = () => {
-  const [refugios, setRefugios] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    // Hacer la petición al backend
-    axios.get('http://127.0.0.1:8000/refugios')
-      .then((response) => {
-        setRefugios(response.data);  // Asignar los datos de la respuesta al estado
-        setLoading(false);  // Detener la carga cuando los datos están listos
-      })
-      .catch((error) => {
-        setError('Error al obtener los refugios');
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) {
-    return <Typography variant="h6" align="center">Cargando refugios...</Typography>;
-  }
-
-  if (error) {
-    return <Typography variant="h6" align="center" color="error">{error}</Typography>;
+// RefugiosList now receives refugios as a prop from Home.js
+const RefugiosList = ({ refugios }) => {
+  if (refugios.length === 0) {
+    return <Typography variant="h6" align="center">No refugios found for the selected country and city</Typography>;
   }
 
   return (
     <Container maxWidth="md">
       <Typography variant="h4" align="center" gutterBottom>
-        Refugios Disponibles
+        Available Refugios
       </Typography>
       <List>
         {refugios.map(refugio => (
           <ListItem key={refugio.id}>
             <ListItemText
               primary={refugio.nombre}
-              secondary={`Capacidad: ${refugio.capacidad} personas`}
+              secondary={`Capacity: ${refugio.capacidad} people, Available: ${refugio.disponible ? 'Yes' : 'No'}`}
             />
           </ListItem>
         ))}

@@ -1,36 +1,40 @@
-from fastapi import FastAPI, Depends, Query
+from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
-from database.database import SessionLocal
+from database.database import get_db
 from database.models import Refugio, WorldCity
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
 
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3001"],  # Update with your frontend's URL and port
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-# Dependencia para obtener la sesión de la base de datos
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
-
-# Endpoint para obtener todos los refugios, filtrando opcionalmente por país o ciudad
 @app.get("/refugios")
-def get_refugios(city: str = None, country: str = None, db: Session = Depends(get_db)):
-    query = db.query(Refugio)
+def get_refugios(country: str, city: str = None, db: Session = Depends(get_db)):
+    query = db.query(Refugio).join(WorldCity, Refugio.city_id == WorldCity.id)
 
-    # Filtrar por ciudad si se proporciona
+    query = query.filter(WorldCity.country == country)
+
     if city:
-        query = query.join(WorldCity, Refugio.city_id == WorldCity.id).filter(
-            WorldCity.city == city
-        )
+        query = query.filter(WorldCity.city == city)
 
-    # Filtrar por país si se proporciona
-    if country:
-        query = query.join(WorldCity, Refugio.country_id == WorldCity.id).filter(
-            WorldCity.country == country
-        )
+    refugios = query.all()
 
-    # Devolver los resultados
-    return query.all()
+    return [
+        {
+            "id": r.id,
+            "nombre": r.nombre,
+            "city": r.city,
+            "capacidad": r.capacidad,
+            "disponible": r.disponible,
+        }
+        for r in refugios
+    ]

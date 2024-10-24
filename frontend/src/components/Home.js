@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Button, Typography, Container, MenuItem, Select, InputLabel, FormControl, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import axios from 'axios';
+import RefugiosList from './RefugiosList';
+
 
 const Home = () => {
   const [formData, setFormData] = useState({
@@ -8,7 +10,7 @@ const Home = () => {
     city: '',
     phone: '',
     service: '',
-    country: '',
+    country: '',  // Keep only the dropdown country
   });
 
   const [news, setNews] = useState([]);  // For storing news articles
@@ -25,13 +27,17 @@ const Home = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Fetch refugios data based on form input (country, city, etc.)
-    axios.get('http://127.0.0.1:8000/refugios', {
-      params: { country: formData.country, city: formData.city }
+    // Make the API call with axios
+    axios.get('http://localhost:8000/refugios', {
+      params: { 
+        country: formData.country.trim(),  // required field
+        city: formData.city.trim()          // optional field
+      }
     })
     .then(response => {
-      setLocations(response.data);  // Set the API response to locations state
-      setShowLocations(true);  // Show the locations table
+      console.log(response.data);  // Log the response data
+      setLocations(response.data);  // Set the locations state with the received data
+      setShowLocations(true);       // Show the locations container
     })
     .catch(error => {
       console.error("Error fetching refugios:", error);
@@ -127,15 +133,6 @@ const Home = () => {
                 style={{ marginBottom: '10px' }}
               />
               <TextField
-                label="Country"
-                name="Country"
-                fullWidth
-                variant="outlined"
-                value={formData.country}
-                onChange={handleChange}
-                style={{ marginBottom: '10px' }}
-              />
-              <TextField
                 label="City"
                 name="city"
                 fullWidth
@@ -200,33 +197,9 @@ const Home = () => {
               </Typography>
 
               {/* Display locations in table format */}
-              {showLocations && locations.length > 0 ? (
-                <TableContainer component={Paper}>
-                  <Table>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Name</TableCell>
-                        <TableCell>City</TableCell>
-                        <TableCell>Capacity</TableCell>
-                        <TableCell>Available</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {locations.map((refugio) => (
-                        <TableRow key={refugio.id}>
-                          <TableCell>{refugio.nombre}</TableCell>
-                          <TableCell>{refugio.city}</TableCell>
-                          <TableCell>{refugio.capacidad}</TableCell>
-                          <TableCell>{refugio.disponible ? 'Yes' : 'No'}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              ) : (
-                <Typography>No locations available</Typography>
-              )}
-
+              {showLocations && (
+              <RefugiosList refugios={locations} />
+                )}
             </Container>
           </div>
         </div>
