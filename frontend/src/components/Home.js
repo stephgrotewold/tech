@@ -6,7 +6,6 @@ import RefugiosList from './RefugiosList';
 
 const Home = () => {
   const [formData, setFormData] = useState({
-    name: '',
     city: '',
     phone: '',
     service: '',
@@ -46,7 +45,6 @@ const Home = () => {
 
   const handleClear = () => {
     setFormData({
-      name: '',
       city: '',
       phone: '',
       service: '',
@@ -123,15 +121,6 @@ const Home = () => {
               <Typography variant="h5" gutterBottom>
                 Fill out this form
               </Typography>
-              <TextField
-                label="Name"
-                name="name"
-                fullWidth
-                variant="outlined"
-                value={formData.name}
-                onChange={handleChange}
-                style={{ marginBottom: '10px' }}
-              />
               <FormControl fullWidth style={{ marginBottom: '20px' }}>
                 <InputLabel>Select Country</InputLabel>
                 <Select
