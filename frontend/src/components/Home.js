@@ -207,7 +207,7 @@ const Home = () => {
 
       {/* Title for the News Section */}
     <Typography variant="h4" align="center" style={{ color: 'white', marginBottom: '20px', marginTop: '50px', fontWeight: 'bold' }}>
-      Latest Updates
+      Latest Updates ↓
     </Typography>
 
       {/* News Section with Solid Background */}
