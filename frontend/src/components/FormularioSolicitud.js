@@ -1,54 +1,117 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { List, ListItem, ListItemText, Container, Typography } from '@mui/material';
+import { TextField, Button, Typography, Container } from '@mui/material';
+import RefugiosList from './RefugiosList'; // Import RefugiosList
 
-const RefugiosList = () => {
-  const [refugios, setRefugios] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const FormularioSolicitud = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    country: '',
+    city: '',
+    service: '',
+    phone_number: ''
+  });
 
-  useEffect(() => {
-    // Make the API call to fetch the refugios from the backend
-    axios.get('http://127.0.0.1:8000/refugios')
-      .then((response) => {
-        setRefugios(response.data);  // Store the fetched data in state
-        setLoading(false);  // Data is loaded, stop loading
-      })
-      .catch((error) => {
-        setError('Failed to fetch refugios');
-        setLoading(false);
-      });
-  }, []);  // This useEffect runs once when the component is mounted
+  const [errors, setErrors] = useState({});
+  const [showRefugios, setShowRefugios] = useState(false); // Control visibility of RefugiosList
 
-  if (loading) {
-    return <Typography variant="h6" align="center">Loading refugios...</Typography>;
-  }
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
 
-  if (error) {
-    return <Typography variant="h6" align="center" color="error">{error}</Typography>;
-  }
+  const validateForm = () => {
+    let tempErrors = {};
+    if (!formData.country) tempErrors.country = "Country is required"; // Only country is required
+    return tempErrors;
+  };
 
-  if (refugios.length === 0) {
-    return <Typography variant="h6" align="center">No refugios available</Typography>;
-  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const tempErrors = validateForm();
+    setErrors(tempErrors);
+
+    if (Object.keys(tempErrors).length === 0) {
+      axios.post('http://localhost:8000/solicitudes/', formData)
+        .then(response => {
+          alert('Request submitted successfully');
+          setShowRefugios(true); // Show RefugiosList after successful form submission
+        })
+        .catch(error => {
+          console.error("Error submitting the request:", error);
+        });
+    }
+  };
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="sm">
       <Typography variant="h4" align="center" gutterBottom>
-        Available Refugios
+        Request Form
       </Typography>
-      <List>
-        {refugios.map(refugio => (
-          <ListItem key={refugio.id}>
-            <ListItemText
-              primary={refugio.nombre}
-              secondary={`Capacity: ${refugio.capacidad} people`}
-            />
-          </ListItem>
-        ))}
-      </List>
+      <form onSubmit={handleSubmit}>
+        <TextField
+          label="Name"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          fullWidth
+          error={!!errors.name}
+          helperText={errors.name}
+          margin="normal"
+        />
+        <TextField
+          label="Country"
+          name="country"
+          value={formData.country}
+          onChange={handleChange}
+          fullWidth
+          error={!!errors.country}
+          helperText={errors.country}
+          margin="normal"
+          required
+        />
+        <TextField
+          label="City"
+          name="city"
+          value={formData.city}
+          onChange={handleChange}
+          fullWidth
+          error={!!errors.city}
+          helperText={errors.city}
+          margin="normal"
+        />
+        <TextField
+          label="Service"
+          name="service"
+          value={formData.service}
+          onChange={handleChange}
+          fullWidth
+          error={!!errors.service}
+          helperText={errors.service}
+          margin="normal"
+        />
+        <TextField
+          label="Phone Number"
+          name="phone_number"
+          value={formData.phone_number}
+          onChange={handleChange}
+          fullWidth
+          error={!!errors.phone_number}
+          helperText={errors.phone_number}
+          margin="normal"
+        />
+        <Button type="submit" variant="contained" color="primary" fullWidth>
+          Submit
+        </Button>
+      </form>
+
+      {/* Show RefugiosList if the form is successfully submitted */}
+      {showRefugios && <RefugiosList />}
     </Container>
   );
 };
 
-export default RefugiosList;
+export default FormularioSolicitud;

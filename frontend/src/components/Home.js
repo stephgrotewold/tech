@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, Typography, Container, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
+import { TextField, Button, Typography, Container, MenuItem, Select, InputLabel, FormControl, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import axios from 'axios';
 
 const Home = () => {
@@ -11,7 +11,9 @@ const Home = () => {
     country: '',
   });
 
-  const [news, setNews] = useState([]); // For storing news articles
+  const [news, setNews] = useState([]);  // For storing news articles
+  const [locations, setLocations] = useState([]);  // For storing locations (refugios)
+  const [showLocations, setShowLocations] = useState(false);  // Control whether to show locations
 
   const handleChange = (e) => {
     setFormData({
@@ -22,7 +24,18 @@ const Home = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+
+    // Fetch refugios data based on form input (country, city, etc.)
+    axios.get('http://127.0.0.1:8000/refugios', {
+      params: { country: formData.country, city: formData.city }
+    })
+    .then(response => {
+      setLocations(response.data);  // Set the API response to locations state
+      setShowLocations(true);  // Show the locations table
+    })
+    .catch(error => {
+      console.error("Error fetching refugios:", error);
+    });
   };
 
   const handleClear = () => {
@@ -33,6 +46,7 @@ const Home = () => {
       service: '',
       country: '',
     });
+    setShowLocations(false);  // Hide the locations table
   };
 
   // Fetch news on component mount
@@ -65,9 +79,9 @@ const Home = () => {
         {/* Logo */}
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <img src="/logo.png" alt="SafeHaven Logo" style={{ height: '50px', marginRight: '20px' }} />
-          <Typography 
-            variant="h2" 
-            align="center" 
+          <Typography
+            variant="h2"
+            align="center"
             style={{ fontWeight: 'bold', color: 'white' }}
           >
             SafeHaven
@@ -78,9 +92,9 @@ const Home = () => {
       {/* Main Section with Background Image */}
       <div style={{
         backgroundImage: "url('/SafeHaven.png')", // Background image for forms and locations
-        backgroundSize: 'cover',  
+        backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',  
+        backgroundPosition: 'center',
         paddingTop: '50px',
         paddingBottom: '50px',  // Ensure space between this section and the news section
       }}>
@@ -113,20 +127,20 @@ const Home = () => {
                 style={{ marginBottom: '10px' }}
               />
               <TextField
+                label="Country"
+                name="Country"
+                fullWidth
+                variant="outlined"
+                value={formData.country}
+                onChange={handleChange}
+                style={{ marginBottom: '10px' }}
+              />
+              <TextField
                 label="City"
                 name="city"
                 fullWidth
                 variant="outlined"
                 value={formData.city}
-                onChange={handleChange}
-                style={{ marginBottom: '10px' }}
-              />
-              <TextField
-                label="Phone Number"
-                name="phone"
-                fullWidth
-                variant="outlined"
-                value={formData.phone}
                 onChange={handleChange}
                 style={{ marginBottom: '10px' }}
               />
@@ -137,8 +151,6 @@ const Home = () => {
                   value={formData.service}
                   onChange={handleChange}
                 >
-                  <MenuItem value="Food">Food</MenuItem>
-                  <MenuItem value="Medical Supplies">Medical Supplies</MenuItem>
                   <MenuItem value="Shelter">Shelter</MenuItem>
                 </Select>
               </FormControl>
@@ -186,26 +198,34 @@ const Home = () => {
               <Typography variant="h5" gutterBottom>
                 Locations
               </Typography>
-              <Typography>1 Freedom St, Kyiv - 50 open spots</Typography>
-              <Typography>123 Liberty Av, Lviv - Food</Typography>
-              <Typography>54 Hope St, Odessa - 20 open spots</Typography>
-              <Typography>9 Independence Sq, Donetsk - Medical Supplies</Typography>
-              <Typography>45 Peace Rd, Mariupol - Food</Typography>
-              <Typography>90 Unity Av, Dnipro - 10 open spots</Typography>
-              <Typography>12 Revolution St, Zaporizhzhia - Medical Supplies</Typography>
-              <Typography>89 Shelter St, Kharkiv - 15 open spots</Typography>
-              <Typography>14 Solidarity Rd, Gaza - Medical Supplies</Typography>
-              <Typography>32 Nueva Av, Caracas - Food</Typography>
-              <Typography>56 Venezuela St, Maracaibo - 30 open spots</Typography>
-              <Typography>18 Bolivar Rd, Valencia - Medical Supplies</Typography>
-              <Typography>72 Sunrise Av, Barquisimeto - Food</Typography>
-              <Typography>88 Harmony St, San Cristobal - 25 open spots</Typography>
-              <Typography>27 Heroe Sq, Puerto la Cruz - Medical Supplies</Typography>
-              <Typography>19 Peace St, Kyiv - 5 open spots</Typography>
-              <Typography>65 Shelter Rd, Mariupol - Food</Typography>
-              <Typography>104 Sanctuary St, Odessa - Medical Supplies</Typography>
-              <Typography>38 Refuge St, Caracas - 10 open spots</Typography>
-              <Typography>21 Survival Rd, Kharkiv - Medical Supplies</Typography>
+
+              {/* Display locations in table format */}
+              {showLocations && locations.length > 0 ? (
+                <TableContainer component={Paper}>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Name</TableCell>
+                        <TableCell>City</TableCell>
+                        <TableCell>Capacity</TableCell>
+                        <TableCell>Available</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {locations.map((refugio) => (
+                        <TableRow key={refugio.id}>
+                          <TableCell>{refugio.nombre}</TableCell>
+                          <TableCell>{refugio.city}</TableCell>
+                          <TableCell>{refugio.capacidad}</TableCell>
+                          <TableCell>{refugio.disponible ? 'Yes' : 'No'}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              ) : (
+                <Typography>No locations available</Typography>
+              )}
 
             </Container>
           </div>
@@ -213,11 +233,11 @@ const Home = () => {
       </div>
 
       {/* Title for the News Section */}
-    <Typography variant="h4" align="center" style={{ color: 'white', marginBottom: '20px', marginTop: '50px', fontWeight: 'bold' }}>
-      Latest Updates ↓
-    </Typography>
+      <Typography variant="h4" align="center" style={{ color: 'white', marginBottom: '20px', marginTop: '50px', fontWeight: 'bold' }}>
+        Latest Updates ↓
+      </Typography>
 
-      {/* News Section with Solid Background */}
+      {/* News Section */}
       <Container style={{
         backgroundColor: 'rgba(255, 255, 255, 0.8)',  // The gray background color you want for the news section
         borderRadius: '10px',
@@ -225,9 +245,9 @@ const Home = () => {
         width: '90%',
         marginTop: '50px',
       }}>
-        
+
         <Typography variant="h5" gutterBottom>
-          Latest News on Gaza
+          Latest News on Ukraine
         </Typography>
         {news.length > 0 ? (
           news.map((article, index) => (
