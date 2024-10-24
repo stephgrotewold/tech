@@ -24,7 +24,7 @@ const Home = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSearch = (e) => {
     e.preventDefault();
 
     // Make the API call with axios
@@ -171,10 +171,10 @@ const Home = () => {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={handleSubmit}
+                  onClick={handleSearch}
                   style={{ width: '45%' }}
                 >
-                  Submit
+                  Search
                 </Button>
                 <Button
                   variant="outlined"
